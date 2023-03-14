@@ -1,4 +1,6 @@
-
+// ? import socket io
+import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+const socket = io('/')
 
 const videoGrid = document.getElementById('video-grid')
 // ? create element for video
@@ -16,6 +18,10 @@ navigator.mediaDevices.getUserMedia({
 }).catch((err) => {
     console.log('err', err);
 })
+
+// ? connection to room with socket io
+console.log(ROOM_ID)
+socket.emit('join-room', ROOM_ID)
 
 // ? create video stream
 const addVideoStream = (video, stream) => {
