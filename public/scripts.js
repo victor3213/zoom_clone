@@ -14,6 +14,8 @@ let peer = new Peer(undefined, {
 });
 
 let myViceoStream
+let mute = document.getElementById('mute')
+let camera = document.getElementById('camera')
 // ? access for video and audio
 navigator.mediaDevices.getUserMedia({
     video: true,
@@ -32,6 +34,31 @@ navigator.mediaDevices.getUserMedia({
     socket.on('user-connected', (userId) => {
         connectToNewUser(userId, stream)
     })
+
+    // ? event for mute or unmute
+    mute.addEventListener("click", (event) => {
+        const enable = stream.getAudioTracks()[0].enabled
+        if (enable) {
+            myViceoStream.getAudioTracks()[0].enabled = false
+            setUnmuteButton()
+        } else {
+            setMuteButton()
+            myViceoStream.getAudioTracks()[0].enabled = true
+        }
+    });
+
+    // ? event for open or close camera
+    camera.addEventListener("click", (event) => {
+        const enable = stream.getVideoTracks()[0].enabled
+        console.log(enable)
+        if (enable) {
+            stream.getVideoTracks()[0].enabled = false
+            setCloseVideo() 
+        } else {
+            setOpenVideo()
+            stream.getVideoTracks()[0].enabled = true
+        }
+    });
 }).catch((err) => {
     console.log('err', err);
 })
@@ -83,3 +110,26 @@ const scrollButton = () => {
     d.scrollTop(d.prop('scrollHeight'))
 
 }
+
+const setMuteButton = () => {
+    let html = `<li class="fa fa-microphone"></i> <span>Mute</span>`
+    document.querySelector(`.main__mute_button`).innerHTML = html
+}
+
+const setUnmuteButton = () => {
+    let html = `<li class="unmute fa fa-microphone-slash"></i> <span>Unmute</span>`
+    document.querySelector(`.main__mute_button`).innerHTML = html
+
+}
+
+ const setCloseVideo = () => {
+    let html = `<li class="unmute fa fa-video-slash"></i> <span>Close Video</span>`
+    document.querySelector(`.main__video_button`).innerHTML = html
+
+ }
+
+ const setOpenVideo = () => {
+    let html = `<li class="fa fa-video"></i> <span>Open Video</span>`
+    document.querySelector(`.main__video_button`).innerHTML = html
+
+ }
