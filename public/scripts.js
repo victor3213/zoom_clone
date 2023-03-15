@@ -5,7 +5,7 @@ const videoGrid = document.getElementById('video-grid')
 // ? create element for video
 const myVideo = document.createElement('video')
 myVideo.muted = true
-
+let peers = {}
 // ? connect peer
 let peer = new Peer(undefined, {
     path: '/peerjs',
@@ -75,6 +75,12 @@ const connectToNewUser = (userId, stream) => {
     call.on('stream', userVideoStream => {
         addVideoStream(video, userVideoStream)
     })
+    // ? remove video after disconection 
+    call.on('close', ()=>{
+        video.remove()
+    })
+
+    peers[userId] = call
 }
 
 // ? create video stream
@@ -93,7 +99,6 @@ const addVideoStream = (video, stream) => {
 let text = $('input')
 $('html').keydown((e) => {
     if (e.which == 13 && text.val().length !== 0) {
-        console.log(text.val());
         socket.emit('message', text.val())
         text.val('')
         scrollButton()
@@ -103,6 +108,14 @@ $('html').keydown((e) => {
 // ? send message back to users
 socket.on('createMessage', message => {
     $('ul').append(`<li class="message"><b>user</b></br>${message}</li>`)
+})
+
+// ? disconect user
+socket.on('user-disconnected', userId => {
+    if(peers[userId]) { 
+        let per = peers[userId]
+        per.close()
+    }
 })
 
 const scrollButton = () => {

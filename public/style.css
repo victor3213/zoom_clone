@@ -22,7 +22,7 @@
 
 .main__videos {
     flex-grow: 1;
-    background-color: black;
+    background-color: #2f2f2f;
     display: flex;
     justify-content: center;
     align-items: center;
