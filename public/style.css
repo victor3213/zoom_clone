@@ -1,4 +1,11 @@
 .main {
+    overflow-x: auto; 
+    overflow-y: hidden;     
+    /* direction:rtl; */
+    /* height:500px; */
+    display:inline-block;  
+}
+.main {
     height: 100vh;
     display: flex;
 }
