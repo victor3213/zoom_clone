@@ -15,7 +15,7 @@
 
 .main__videos {
     flex-grow: 1;
-    background-color: black;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -100,4 +100,9 @@
 
 .unmute, .stop {
     color: #CC3B33;
+}
+video {
+    height: 250px;
+    width: 250px;
+    padding: 1%;
 }

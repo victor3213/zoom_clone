@@ -17,7 +17,7 @@ let myViceoStream
 // ? access for video and audio
 navigator.mediaDevices.getUserMedia({
     video: true,
-    audio: false
+    audio: true
 }).then(stream => {
     myViceoStream = stream
     addVideoStream(myVideo, stream)
@@ -62,3 +62,24 @@ const addVideoStream = (video, stream) => {
     videoGrid.append(video)
 }
 
+// ? sendig message
+let text = $('input')
+$('html').keydown((e) => {
+    if (e.which == 13 && text.val().length !== 0) {
+        console.log(text.val());
+        socket.emit('message', text.val())
+        text.val('')
+        scrollButton()
+    }
+})
+
+// ? send message back to users
+socket.on('createMessage', message => {
+    $('ul').append(`<li class="message"><b>user</b></br>${message}</li>`)
+})
+
+const scrollButton = () => {
+    let d = $('.main__chat_window')
+    d.scrollTop(d.prop('scrollHeight'))
+
+}

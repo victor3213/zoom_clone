@@ -29,6 +29,12 @@ io.on('connection', (socket) => {
         socket.join(roomId)
         // ? to add users to stream
         socket.to(roomId).emit('user-connected', userId)
+
+        // ? seding message
+        socket.on('message', message => {
+            // ? send message back
+            io.to(roomId).emit('createMessage', message)
+        })
     })
 });
 
