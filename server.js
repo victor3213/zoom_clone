@@ -23,13 +23,10 @@ app.get('/:room', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
     socket.on('join-room', (roomId, userId) => {
-        console.log('user join to room');
         socket.join(roomId)
         // ? to add users to stream
         socket.to(roomId).emit('user-connected', userId)
-
         // ? seding message
         socket.on('message', message => {
             // ? send message back

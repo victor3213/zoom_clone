@@ -131,5 +131,18 @@ const setUnmuteButton = () => {
  const setOpenVideo = () => {
     let html = `<li class="fa fa-video"></i> <span>Open Video</span>`
     document.querySelector(`.main__video_button`).innerHTML = html
+ }
 
+ const chatHideShow = () => {
+    let chat = document.getElementById('chat')
+    let attr = chat.getAttribute('data-open')
+    if (attr === "true") {
+        document.querySelector(`.main__left`).style.flex = 1.8
+        document.querySelector(`.main__right`).style.display = 'none'
+        chat.setAttribute('data-open', false)
+    } else {
+        document.querySelector(`.main__left`).style.flex = 0.8
+        document.querySelector(`.main__right`).style.display = 'block'
+        chat.setAttribute('data-open', true)
+    }
  }
